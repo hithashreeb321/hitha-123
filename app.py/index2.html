@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>VR Medical Simulation</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <!-- Hospital Room -->
+      <a-box position="0 0 -5" depth="10" height="5" width="10" color="#ccc"></a-box>
+      
+      <!-- Patient Avatar -->
+      <a-sphere id="patient" position="0 1.5 -3" radius="1" color="pink"></a-sphere>
+      
+      <!-- Vital Signs Display -->
+      <a-text id="vitals" value="Loading vitals..." position="-1 2 -2" color="black"></a-text>
+    </a-scene>
+
+    <script>
+      const socket = io();
+      socket.on("vitals_update", data => {
+        document.querySelector("#vitals").setAttribute("value",
+          `HR: ${data.heart_rate} | BP: ${data.blood_pressure} | O2: ${data.oxygen_level}%`);
+      });
+    </script>
+  </body>
+</html>
